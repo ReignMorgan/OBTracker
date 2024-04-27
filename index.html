@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto-Refreshing Page</title>
+<script>
+function refreshPage() {
+  location.reload(); // Reload the page
+}
+
+function fetchData() {
+  // Make an AJAX request to fetch data from another webpage
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("data").innerHTML = this.responseText; // Display the fetched data
+    }
+  };
+  xhttp.open("GET", "URL_OF_THE_OTHER_WEBPAGE", true);
+  xhttp.send();
+}
+
+// Refresh the page every 60 seconds
+setInterval(refreshPage, 60000);
+
+// Fetch data from another webpage initially
+fetchData();
+// Fetch data every 60 seconds
+setInterval(fetchData, 60000);
+</script>
+</head>
+<body>
+<h1>Auto-Refreshing Page</h1>
+<div id="data"></div>
+</body>
+</html>
