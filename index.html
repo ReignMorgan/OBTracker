@@ -10,24 +10,28 @@ function refreshPage() {
 }
 
 function fetchData() {
-  // Make an AJAX request to fetch data from another webpage
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("data").innerHTML = this.responseText; // Display the fetched data
-    }
-  };
-  xhttp.open("GET", "https://www.roblox.com/home", true);
-  xhttp.send();
+  fetch("https://www.roblox.com/home")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text();
+    })
+    .then(data => {
+      document.getElementById("data").innerHTML = data; // Display the fetched data
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
 }
 
 // Refresh the page every 60 seconds
-setInterval(refreshPage, 2000);
+setInterval(refreshPage, 3000);
 
 // Fetch data from another webpage initially
 fetchData();
 // Fetch data every 60 seconds
-setInterval(fetchData, 2000);
+setInterval(fetchData, 3000);
 </script>
 </head>
 <body>
