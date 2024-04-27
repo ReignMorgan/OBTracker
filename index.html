@@ -7,6 +7,7 @@
 <script>
 function refreshPage() {
   location.reload(); // Reload the page
+  document.getElementById("refreshStatus").innerText = "Page refreshed"; // Update status text
 }
 
 function fetchData() {
@@ -18,24 +19,35 @@ function fetchData() {
       return response.text();
     })
     .then(data => {
-      document.getElementById("bodyContent").innerHTML = data; // Display the fetched data
+      document.getElementById("data").innerHTML = data; // Display the fetched data
+      document.getElementById("fetchStatus").innerText = "Data fetched"; // Update status text
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
+      document.getElementById("fetchStatus").innerText = "Error fetching data"; // Update status text in case of error
     });
 }
 
-// Refresh the page every 60 seconds
-setInterval(refreshPage, 3000);
+// Refresh the page every 2 seconds
+setInterval(function() {
+  refreshPage();
+  document.getElementById("refreshStatus").innerText = "Page refreshing..."; // Update status text
+}, 2000);
 
 // Fetch data from another webpage initially
 fetchData();
-// Fetch data every 60 seconds
-setInterval(fetchData, 3000);
+document.getElementById("fetchStatus").innerText = "Fetching data..."; // Initial status text
+// Fetch data every 2 seconds
+setInterval(function() {
+  fetchData();
+  document.getElementById("fetchStatus").innerText = "Fetching data..."; // Update status text
+}, 2000);
 </script>
 </head>
 <body>
 <h1>Auto-Refreshing Page</h1>
+<p id="refreshStatus">Page refreshed</p> <!-- Indicator for page refresh -->
+<p id="fetchStatus">Data fetched</p> <!-- Indicator for data fetch -->
 <div id="data"></div>
 </body>
 </html>
