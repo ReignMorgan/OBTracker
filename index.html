@@ -19,12 +19,12 @@ function fetchData() {
       return response.text();
     })
     .then(data => {
-      document.getElementById("data").innerHTML = data; // Display the fetched data
+      document.getElementById("bodyContent").innerHTML = data; // Display the fetched data
       document.getElementById("fetchStatus").innerText = "Data fetched"; // Update status text
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
-      document.getElementById("fetchStatus").innerText = "Error fetching data"; // Update status text in case of error
+      document.getElementById("fetchStatus").innerText = "Error fetching data :("; // Update status text in case of error
     });
 }
 
