@@ -11,7 +11,7 @@ function refreshPage() {
 }
 
 function fetchData() {
-  fetch("https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/wiki/Helldivers_2")
+  fetch("https://www.wowhead.com/item-sets")
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -19,7 +19,7 @@ function fetchData() {
       return response.text();
     })
     .then(data => {
-      document.getElementById("siteSub").innerHTML = data; // Display the fetched data
+      document.getElementById("item-sets-listview-parent").innerHTML = data; // Display the fetched data
       document.getElementById("fetchStatus").innerText = "Data fetched"; // Update status text
     })
     .catch(error => {
