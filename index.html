@@ -6,9 +6,6 @@
 <title>Real Estate Listings</title>
 <script>
 function fetchData() {
-  // Display confirmation message
-  document.getElementById("fetchStatus").innerText = "Fetching data...";
-
   fetch("https://www.realtor.com/apartments/Nampa_ID/beds-2")
     .then(response => {
       if (!response.ok) {
@@ -22,7 +19,7 @@ function fetchData() {
       const htmlDocument = parser.parseFromString(data, 'text/html');
       
       // Extract the listings
-      const listings = htmlDocument.querySelectorAll('.BasePropertyCard_propertyCardWrap__p9fJ0');
+      const listings = htmlDocument.querySelectorAll('.component_property-card');
 
       // Display the total number of listings found
       document.getElementById("totalListings").innerText = `Total listings found: ${listings.length}`;
@@ -35,29 +32,21 @@ function fetchData() {
 
       // Display the listings
       document.getElementById("listings").innerHTML = listingsHTML;
-
-      // Display confirmation message
-      document.getElementById("fetchStatus").innerText = "Data fetched successfully";
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
-      // Display error message
-      document.getElementById("fetchStatus").innerText = "Error fetching data";
     });
 }
 
 // Fetch data initially
 fetchData();
 
-// Fetch data every 3 seconds
-setInterval(function() {
-  fetchData();
-}, 3000);
+// Fetch data every 2 seconds
+setInterval(fetchData, 2000);
 </script>
 </head>
 <body>
 <h1>Real Estate Listings</h1>
-<p id="fetchStatus"></p>
 <p id="totalListings"></p>
 <div id="listings"></div>
 </body>
