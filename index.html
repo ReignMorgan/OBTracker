@@ -45,7 +45,7 @@ function fetchData() {
       }
 
       // Display the table
-      document.getElementById("table").innerHTML = table ? table.outerHTML : "notable";
+      document.getElementById("table").innerHTML = table ? table.outerHTML : "";
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
@@ -61,8 +61,8 @@ setInterval(fetchData, 3000);
 </head>
 <body>
 <h1>Population by Country</h1>
-<p id="foundIndicator">found?</p>
-<p id="noTableIndicator">table?</p>
+<p id="foundIndicator">Table Found</p>
+<p id="noTableIndicator">No Table</p>
 <div id="table"></div>
 </body>
 </html>
