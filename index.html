@@ -6,7 +6,7 @@
 <title>Table Data</title>
 <script>
 function fetchData() {
-  fetch("https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population")
+  fetch("https://www.worldometers.info/world-population/population-by-country/")
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -19,7 +19,7 @@ function fetchData() {
       const htmlDocument = parser.parseFromString(data, 'text/html');
       
       // Extract the table
-      const table = htmlDocument.querySelector('.wikitable');
+      const table = htmlDocument.querySelector('table');
 
       // Display the table
       document.getElementById("table").innerHTML = table.outerHTML;
@@ -41,3 +41,4 @@ setInterval(fetchData, 4000);
 <div id="table"></div>
 </body>
 </html>
+
