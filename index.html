@@ -11,7 +11,7 @@ function refreshPage() {
 }
 
 function fetchData() {
-  fetch("https://www.wowhead.com/item-sets")
+  fetch("https://www.realtor.com/apartments/Nampa_ID/beds-2")
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -19,7 +19,21 @@ function fetchData() {
       return response.text();
     })
     .then(data => {
-      document.getElementById("item-sets-listview-parent").innerHTML = data; // Display the fetched data
+      // Parse the HTML response into a DOM object
+      const parser = new DOMParser();
+      const htmlDocument = parser.parseFromString(data, 'text/html');
+      
+      // Extract the desired data from the parsed HTML
+      const listings = htmlDocument.querySelectorAll('.component_property-card');
+
+      // Build the HTML content to display the listings
+      let listingsHTML = '';
+      listings.forEach(listing => {
+        listingsHTML += listing.outerHTML;
+      });
+
+      // Display the fetched data
+      document.getElementById("data").innerHTML = listingsHTML;
       document.getElementById("fetchStatus").innerText = "Data fetched"; // Update status text
     })
     .catch(error => {
@@ -34,7 +48,7 @@ setInterval(function() {
   document.getElementById("refreshStatus").innerText = "Page refreshing..."; // Update status text
 }, 2000);
 
-// Fetch data from another webpage initially
+// Fetch data from the webpage initially
 fetchData();
 document.getElementById("fetchStatus").innerText = "Fetching data..."; // Initial status text
 // Fetch data every 2 seconds
@@ -49,13 +63,5 @@ setInterval(function() {
 <p id="refreshStatus">Page refreshed</p> <!-- Indicator for page refresh -->
 <p id="fetchStatus">Data fetched</p> <!-- Indicator for data fetch -->
 <div id="data"></div>
-
 </body>
-
-<?php
-  include('simple_html_dom.php');
-  $html = file_get_html('https://www.wowhead.com/item-sets');
-  echo $html->find('header-nav', 0)->plaintext;
-?>
-  
 </html>
