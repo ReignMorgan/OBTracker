@@ -41,7 +41,7 @@ function fetchData() {
       document.getElementById("listings").innerHTML = listingsHTML;
 
       // Display confirmation message
-      document.getElementById("fetchStatus").innerText = "Data fetched";
+      document.getElementById("fetchStatus").innerText = "Data fetched successfully";
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
