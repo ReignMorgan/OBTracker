@@ -22,7 +22,7 @@ function fetchData() {
       const htmlDocument = parser.parseFromString(data, 'text/html');
       
       // Extract the listings
-      const listings = htmlDocument.querySelectorAll('.component_property-card');
+      const listings = htmlDocument.querySelectorAll('.BasePropertyCard_propertyCardWrap__p9fJ0');
 
       // Display the total number of listings found
       document.getElementById("totalListings").innerText = `Total listings found: ${listings.length}`;
