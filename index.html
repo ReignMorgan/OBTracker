@@ -3,14 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auto-Refreshing Page</title>
+<title>Real Estate Listings</title>
 <script>
 function refreshPage() {
   location.reload(); // Reload the page
-  document.getElementById("refreshStatus").innerText = "Page refreshed"; // Update status text
 }
 
 function fetchData() {
+  // Display confirmation message
+  document.getElementById("fetchStatus").innerText = "Fetching data...";
+
   fetch("https://www.realtor.com/apartments/Nampa_ID/beds-2")
     .then(response => {
       if (!response.ok) {
@@ -23,45 +25,47 @@ function fetchData() {
       const parser = new DOMParser();
       const htmlDocument = parser.parseFromString(data, 'text/html');
       
-      // Extract the desired data from the parsed HTML
+      // Extract the listings
       const listings = htmlDocument.querySelectorAll('.component_property-card');
 
-      // Build the HTML content to display the listings
+      // Display the total number of listings found
+      document.getElementById("totalListings").innerText = `Total listings found: ${listings.length}`;
+
+      // Build HTML for each listing
       let listingsHTML = '';
       listings.forEach(listing => {
         listingsHTML += listing.outerHTML;
       });
 
-      // Display the fetched data
-      document.getElementById("data").innerHTML = listingsHTML;
-      document.getElementById("fetchStatus").innerText = "Data fetched"; // Update status text
+      // Display the listings
+      document.getElementById("listings").innerHTML = listingsHTML;
+
+      // Display confirmation message
+      document.getElementById("fetchStatus").innerText = "Data fetched";
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
-      document.getElementById("fetchStatus").innerText = "Error fetching data"; // Update status text in case of error
+      // Display error message
+      document.getElementById("fetchStatus").innerText = "Error fetching data";
     });
 }
 
-// Refresh the page every 2 seconds
+// Fetch data initially
+fetchData();
+
+// Refresh the page every 3 seconds
 setInterval(function() {
   refreshPage();
-  document.getElementById("refreshStatus").innerText = "Page refreshing..."; // Update status text
-}, 2000);
-
-// Fetch data from the webpage initially
-fetchData();
-document.getElementById("fetchStatus").innerText = "Fetching data..."; // Initial status text
-// Fetch data every 2 seconds
-setInterval(function() {
-  fetchData();
-  document.getElementById("fetchStatus").innerText = "Fetching data..."; // Update status text
-}, 2000);
+  // Display confirmation message
+  document.getElementById("refreshStatus").innerText = "Page refreshing...";
+}, 3000);
 </script>
 </head>
 <body>
-<h1>Auto-Refreshing Page</h1>
-<p id="refreshStatus">Page refreshed</p> <!-- Indicator for page refresh -->
-<p id="fetchStatus">Data fetched</p> <!-- Indicator for data fetch -->
-<div id="data"></div>
+<h1>Real Estate Listings</h1>
+<p id="refreshStatus">Page refreshed</p>
+<p id="fetchStatus"></p>
+<p id="totalListings"></p>
+<div id="listings"></div>
 </body>
 </html>
