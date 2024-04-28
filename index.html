@@ -3,13 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auto-Refreshing Page</title>
+<title>Population by Country</title>
 <script>
-function refreshPage() {
-  location.reload(); // Reload the page
-  document.getElementById("refreshStatus").innerText = "Page refreshed"; // Update status text
-}
-
 function fetchData() {
   fetch("https://www.worldometers.info/world-population/population-by-country/")
     .then(response => {
@@ -19,49 +14,30 @@ function fetchData() {
       return response.text();
     })
     .then(data => {
-
-
-    // Parse the HTML response into a DOM object
+      // Parse the HTML response into a DOM object
       const parser = new DOMParser();
       const htmlDocument = parser.parseFromString(data, 'text/html');
+      
       // Extract the table
-      const table = htmlDocument.querySelector('table');
+      const table = htmlDocument.querySelector('#example2');
+
       // Display the table
       document.getElementById("table").innerHTML = table.outerHTML;
-
-      
-      //document.getElementById("item-sets-listview-parent").innerHTML = data; // Display the fetched data
-      document.getElementById("fetchStatus").innerText = "Data fetched"; // Update status text
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
-      document.getElementById("fetchStatus").innerText = "Error fetching data"; // Update status text in case of error
     });
 }
 
-// Refresh the page every 2 seconds
-setInterval(function() {
-  refreshPage();
-  document.getElementById("refreshStatus").innerText = "Page refreshing..."; // Update status text
-}, 2000);
-
-// Fetch data from another webpage initially
+// Fetch data initially
 fetchData();
-document.getElementById("fetchStatus").innerText = "Fetching data..."; // Initial status text
-// Fetch data every 2 seconds
-setInterval(function() {
-  fetchData();
-  document.getElementById("fetchStatus").innerText = "Fetching data..."; // Update status text
-}, 2000);
+
+// Fetch data every 10 seconds
+setInterval(fetchData, 10000);
 </script>
 </head>
 <body>
-<h1>Auto-Refreshing Page 1.0</h1>
-<p id="refreshStatus">Page refreshed</p> <!-- Indicator for page refresh -->
-<p id="fetchStatus">Data fetched</p> <!-- Indicator for data fetch -->
-  <div id="table"></div>
-<div id="data"></div>
-
+<h1>Population by Country</h1>
+<div id="table"></div>
 </body>
-  
 </html>
