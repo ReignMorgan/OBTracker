@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Table Data</title>
+<title>Table Data 1</title>
 <script>
 let countdown = 4; // Initial countdown value
 
@@ -28,6 +28,9 @@ function fetchData() {
 
       // Reset the countdown
       countdown = 4;
+
+      // Update the countdown message
+      document.getElementById("refreshStatus").innerText = `Refreshing in ${countdown} seconds...`;
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
