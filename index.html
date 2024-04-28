@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real Estate Listings</title>
+<title>Table Data</title>
 <script>
 function fetchData() {
-  fetch("https://www.realtor.com/apartments/Nampa_ID/beds-2")
+  fetch("https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population")
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -18,20 +18,11 @@ function fetchData() {
       const parser = new DOMParser();
       const htmlDocument = parser.parseFromString(data, 'text/html');
       
-      // Extract the listings
-      const listings = htmlDocument.querySelectorAll('.component_property-card');
+      // Extract the table
+      const table = htmlDocument.querySelector('.wikitable');
 
-      // Display the total number of listings found
-      document.getElementById("totalListings").innerText = `Total listings found: ${listings.length}`;
-
-      // Build HTML for each listing
-      let listingsHTML = '';
-      listings.forEach(listing => {
-        listingsHTML += listing.outerHTML;
-      });
-
-      // Display the listings
-      document.getElementById("listings").innerHTML = listingsHTML;
+      // Display the table
+      document.getElementById("table").innerHTML = table.outerHTML;
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
@@ -41,13 +32,12 @@ function fetchData() {
 // Fetch data initially
 fetchData();
 
-// Fetch data every 2 seconds
-setInterval(fetchData, 2000);
+// Fetch data every 4 seconds
+setInterval(fetchData, 4000);
 </script>
 </head>
 <body>
-<h1>Real Estate Listings</h1>
-<p id="totalListings"></p>
-<div id="listings"></div>
+<h1>Table Data</h1>
+<div id="table"></div>
 </body>
 </html>
