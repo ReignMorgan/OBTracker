@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auto-Refreshing Page</title>
+<title>Auto-Refreshing Page 1.0</title>
 <script>
 function refreshPage() {
   location.reload(); // Reload the page
@@ -19,6 +19,17 @@ function fetchData() {
       return response.text();
     })
     .then(data => {
+
+
+    // Parse the HTML response into a DOM object
+      const parser = new DOMParser();
+      const htmlDocument = parser.parseFromString(data, 'text/html');
+      // Extract the table
+      const table = htmlDocument.querySelector('table');
+      // Display the table
+      document.getElementById("table").innerHTML = table.outerHTML;
+
+      
       document.getElementById("item-sets-listview-parent").innerHTML = data; // Display the fetched data
       document.getElementById("fetchStatus").innerText = "Data fetched"; // Update status text
     })
@@ -51,11 +62,5 @@ setInterval(function() {
 <div id="data"></div>
 
 </body>
-
-<?php
-  include('simple_html_dom.php');
-  $html = file_get_html('https://www.wowhead.com/item-sets');
-  echo $html->find('header-nav', 0)->plaintext;
-?>
   
 </html>
