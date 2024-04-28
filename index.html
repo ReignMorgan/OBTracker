@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Population by Country</title>
+  <div id="echoContainer"></div>
 <style>
 #foundIndicator {
   font-weight: bold;
@@ -16,13 +17,23 @@
 }
 </style>
 <script>
+  function echoLine(line) {
+  // Create a new paragraph element
+  const paragraph = document.createElement("p");
+  
+  // Set the text content of the paragraph element to the provided line
+  paragraph.textContent = line;
+  
+  // Append the paragraph element to the echoContainer div
+  document.getElementById("echoContainer").appendChild(paragraph);
+}
 function fetchData() {
   fetch("https://www.worldometers.info/world-population/population-by-country/")
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      echo "test"
+      echoLine("test");
       return response.text();
     })
     .then(data => {
