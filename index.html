@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Population by Country</title>
+<style>
+#foundIndicator {
+  font-weight: bold;
+  color: green;
+}
+
+#noTableIndicator {
+  font-weight: bold;
+  color: red;
+}
+</style>
 <script>
 function fetchData() {
   fetch("https://www.worldometers.info/world-population/population-by-country/")
@@ -21,8 +32,20 @@ function fetchData() {
       // Extract the table
       const table = htmlDocument.querySelector('#example2');
 
+      // Display indicators
+      if (table) {
+        document.getElementById("foundIndicator").innerText = "Table found";
+        if (table.querySelector('tbody tr')) {
+          document.getElementById("noTableIndicator").innerText = ""; // Clear previous message
+        } else {
+          document.getElementById("noTableIndicator").innerText = "Table has no information";
+        }
+      } else {
+        document.getElementById("foundIndicator").innerText = "Table not found";
+      }
+
       // Display the table
-      document.getElementById("table").innerHTML = table.outerHTML;
+      document.getElementById("table").innerHTML = table ? table.outerHTML : "";
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
@@ -38,6 +61,8 @@ setInterval(fetchData, 10000);
 </head>
 <body>
 <h1>Population by Country</h1>
+<p id="foundIndicator"></p>
+<p id="noTableIndicator"></p>
 <div id="table"></div>
 </body>
 </html>
