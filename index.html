@@ -49,5 +49,14 @@ setInterval(function() {
 <p id="refreshStatus">Page refreshed</p> <!-- Indicator for page refresh -->
 <p id="fetchStatus">Data fetched</p> <!-- Indicator for data fetch -->
 <div id="data"></div>
+  <?php
+
+include('simple_html_dom.php');
+
+$html = file_get_html('https://www.wowhead.com/item-sets');
+
+echo $html->find('header-nav',0)->plaintext;
+
+?>
 </body>
 </html>
