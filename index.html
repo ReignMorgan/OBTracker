@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Table Data</title>
+<title>Table Data 1.0</title>
 <script>
+let countdown = 4; // Initial countdown value
+
 function fetchData() {
   fetch("https://www.worldometers.info/world-population/population-by-country/")
     .then(response => {
@@ -23,6 +25,9 @@ function fetchData() {
 
       // Display the table
       document.getElementById("table").innerHTML = table.outerHTML;
+
+      // Reset the countdown
+      countdown = 4;
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
@@ -32,13 +37,20 @@ function fetchData() {
 // Fetch data initially
 fetchData();
 
-// Fetch data every 4 seconds
-setInterval(fetchData, 4000);
+// Start countdown and fetch data every 4 seconds
+setInterval(function() {
+  countdown--;
+  if (countdown <= 0) {
+    fetchData();
+  } else {
+    document.getElementById("refreshStatus").innerText = `Refreshing in ${countdown} seconds...`;
+  }
+}, 1000);
 </script>
 </head>
 <body>
 <h1>Table Data</h1>
+<p id="refreshStatus">Refreshing in 4 seconds...</p>
 <div id="table"></div>
 </body>
 </html>
-
