@@ -22,6 +22,7 @@ function fetchData() {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+      echo "test"
       return response.text();
     })
     .then(data => {
