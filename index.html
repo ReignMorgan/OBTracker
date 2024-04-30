@@ -4,77 +4,57 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Population by Country</title>
-  <div id="echoContainer"></div>
-<style>
-#foundIndicator {
-  font-weight: bold;
-  color: green;
-}
-
-#noTableIndicator {
-  font-weight: bold;
-  color: red;
-}
-</style>
-<script>
-  function echoLine(line) {
-  // Create a new paragraph element
-  const paragraph = document.createElement("p");
-  
-  // Set the text content of the paragraph element to the provided line
-  paragraph.textContent = line;
-  
-  // Append the paragraph element to the echoContainer div
-  document.getElementById("echoContainer").appendChild(paragraph);
-}
-function fetchData() {
-  fetch("https://www.worldometers.info/world-population/population-by-country/")
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      echoLine("test");
-      return response.text();
-    })
-    .then(data => {
-      // Parse the HTML response into a DOM object
-      const parser = new DOMParser();
-      const htmlDocument = parser.parseFromString(data, 'text/html');
-      
-      // Extract the table
-      const table = htmlDocument.querySelector('#example2');
-
-      // Display indicators
-      if (table) {
-        document.getElementById("foundIndicator").innerText = "Table found";
-        if (table.querySelector('tbody tr')) {
-          document.getElementById("noTableIndicator").innerText = ""; // Clear previous message
-        } else {
-          document.getElementById("noTableIndicator").innerText = "Table has no information";
-        }
-      } else {
-        document.getElementById("foundIndicator").innerText = "Table not found";
-      }
-
-      // Display the table
-      document.getElementById("table").innerHTML = table ? table.outerHTML : "";
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
-}
-
-// Fetch data initially
-fetchData();
-
-// Fetch data every 10 seconds
-setInterval(fetchData, 3000);
-</script>
 </head>
 <body>
+
 <h1>Population by Country</h1>
-<p id="foundIndicator">Table Found</p>
-<p id="noTableIndicator">No Table</p>
-<div id="table"></div>
+
+<table id="population-table">
+  <thead>
+    <tr>
+      <th>Country</th>
+      <th>Population</th>
+      <th>Yearly Change</th>
+    </tr>
+  </thead>
+  <tbody id="population-data">
+    <!-- Population data will be inserted here -->
+  </tbody>
+</table>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Make a request to fetch the data
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "https://www.worldometers.info/world-population/population-by-country/", true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      // Parse the response
+      var parser = new DOMParser();
+      var htmlDoc = parser.parseFromString(xhr.responseText, "text/html");
+      
+      // Find the table containing the data
+      var table = htmlDoc.getElementById("example2");
+      var tbody = table.querySelector("tbody");
+      var rows = tbody.querySelectorAll("tr");
+      
+      // Iterate over rows and extract data for the first three columns
+      var populationData = "";
+      for (var i = 0; i < rows.length; i++) {
+        var columns = rows[i].querySelectorAll("td");
+        var country = columns[1].textContent.trim();
+        var population = columns[2].textContent.trim();
+        var yearlyChange = columns[3].textContent.trim();
+        populationData += "<tr><td>" + country + "</td><td>" + population + "</td><td>" + yearlyChange + "</td></tr>";
+      }
+      
+      // Insert the populated data into the table
+      document.getElementById("population-data").innerHTML = populationData;
+    }
+  };
+  xhr.send();
+});
+</script>
+
 </body>
 </html>
